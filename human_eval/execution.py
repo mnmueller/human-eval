@@ -9,7 +9,7 @@ import platform
 import signal
 import tempfile
 
-def unsafe_execute(problem, candidate, result, timeout, test_key="test", entry_point=None):
+def unsafe_execute(problem, candidate, result, timeout, test_key="plus", entry_point=None):
 
     with create_tempdir():
 
@@ -26,7 +26,7 @@ def unsafe_execute(problem, candidate, result, timeout, test_key="test", entry_p
         # Construct the check program and run it.
         check_program = (
             candidate + "\n" +
-            problem[test_key] + "\n" +
+            problem["tests"][test_key] + "\n" +
             (f"check({problem['entry_point']})" if entry_point is None else f"check({entry_point})")
         )
 
@@ -58,7 +58,7 @@ def unsafe_execute(problem, candidate, result, timeout, test_key="test", entry_p
 
 
 def check_correctness(problem: Dict, completion: str, timeout: float,
-                      completion_id: Optional[int] = None, test_key: str = "test", entry_point=None) -> Dict:
+                      completion_id: Optional[int] = None, test_key: str = "plus", entry_point=None) -> Dict:
     """
     Evaluates the functional correctness of a completion by running the test
     suite provided in the problem.
